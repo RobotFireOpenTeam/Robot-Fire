@@ -119,6 +119,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &20421151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6576253951780447289, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+  m_PrefabInstance: {fileID: 967905243718632061}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &20421159
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20421151}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +319,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1072999726 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6078106373742012815, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+  m_PrefabInstance: {fileID: 967905243718632061}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1958731784
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +615,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3985590885331333755, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6854431586441650145, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
       propertyPath: m_Mass
       value: 50
@@ -588,10 +627,30 @@ PrefabInstance:
       propertyPath: speed
       value: 2.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7254177687102040141, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: mainCam
+      value: 
+      objectReference: {fileID: 1072999726}
+    - target: {fileID: 7254177687102040141, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: playerControls
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - target: {fileID: 7254177687102040141, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: sprintMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254177687102040141, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: characterController
+      value: 
+      objectReference: {fileID: 20421159}
+    m_RemovedComponents:
+    - {fileID: 2290559382681177264, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6576253951780447289, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 20421159}
   m_SourcePrefab: {fileID: 100100000, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
