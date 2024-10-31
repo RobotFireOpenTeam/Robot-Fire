@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class RobotController : MonoBehaviour
+public class RobotController : NetworkBehaviour
 {
     [Header("Objects")]
     [SerializeField] private CharacterController characterController;
@@ -78,6 +79,8 @@ public class RobotController : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner) return;
+
         HandleMovement();
         HandleRotation();
         InternalLockUpdate();

@@ -375,6 +375,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6604919127397567024}
+  - component: {fileID: 3616139496424255711}
   m_Layer: 0
   m_Name: TestRobot Variant with Ak
   m_TagString: Untagged
@@ -398,6 +399,31 @@ Transform:
   - {fileID: 7869737294892020427}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3616139496424255711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4933421663285562274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3329168573
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &6576253951780447289
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +435,7 @@ GameObject:
   - component: {fileID: 7869737294892020427}
   - component: {fileID: 1725518200837358794}
   - component: {fileID: 2150134255041786277}
-  - component: {fileID: 2290559382681177264}
+  - component: {fileID: 1241079774488197780}
   - component: {fileID: 7254177687102040141}
   - component: {fileID: 3985590885331333755}
   m_Layer: 0
@@ -488,8 +514,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2290559382681177264
-CapsuleCollider:
+--- !u!143 &1241079774488197780
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -503,13 +529,15 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
+  serializedVersion: 3
   m_Height: 2
-  m_Direction: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7254177687102040141
 MonoBehaviour:
@@ -523,15 +551,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa555b9291455634ca0f4c9de3c0aacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 0}
-  m_Camera: {fileID: 6078106373742012815}
+  characterController: {fileID: 1241079774488197780}
+  mainCam: {fileID: 6078106373742012815}
   upDownRange: 90
   walkSpeed: 5
-  sprintMultiplier: 5
+  sprintMultiplier: 1.5
   gravity: 9.81
   jumpForce: 5
   m_lookSensitivity: 3
-  playerControls: {fileID: 0}
+  playerControls: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &3985590885331333755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +567,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6576253951780447289}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cabbcfe839b5be428525e9576d46e52, type: 3}
   m_Name: 
