@@ -8,6 +8,7 @@ public class RobotController : NetworkBehaviour
     [Header("Objects")]
     [SerializeField] private CharacterController characterController;
     [SerializeField] protected Camera mainCam;
+    [SerializeField] private Weapon weapon;
 
     [SerializeField] private float upDownRange = 90f;
     private float verticalRotation;
@@ -15,7 +16,7 @@ public class RobotController : NetworkBehaviour
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 5.0f;
     [SerializeField] private float sprintMultiplier = 5.0f;
-
+    float speedMultiplier = 1f;
     
     [Header("Gravity / JumpForce")]
     [SerializeField] private float gravity = 9.81f;
@@ -26,17 +27,7 @@ public class RobotController : NetworkBehaviour
     private bool m_cursorIsLocked = true;
 
     [Header("Input Actions")]
-    [SerializeField] private InputActionAsset playerControls;
-
-    private InputAction moveAction;
-    private InputAction lookAction;
-    private InputAction attackAction;
-    private InputAction interactAction;
-    private InputAction crouchAction;
-    private InputAction jumpAction;
-    private InputAction previousAction;
-    private InputAction nextAction;
-    private InputAction sprintAction;
+    [SerializeField] private PlayerInput playerInput;
 
     private Vector2 moveInput;
     private Vector2 lookInput;
@@ -44,43 +35,85 @@ public class RobotController : NetworkBehaviour
     private bool isMoving;
     private Vector3 currentMovement = Vector3.zero;
 
+
+    // Network Variables
+    [Header("Network Variables")]
+    private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
+    private NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>();
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-
-        moveAction = playerControls.FindActionMap("Player").FindAction("Move");
-        lookAction = playerControls.FindActionMap("Player").FindAction("Look");
-        sprintAction = playerControls.FindActionMap("Player").FindAction("Sprint");
-        jumpAction = playerControls.FindActionMap("Player").FindAction("Jump");
-
-        moveAction.performed += context => moveInput = context.ReadValue<Vector2>();
-        moveAction.canceled += context => moveInput = Vector2.zero;
-
-        lookAction.performed += context => lookInput = context.ReadValue<Vector2>();
-        lookAction.canceled += context => lookInput = Vector2.zero;
-
+        playerInput = GetComponent<PlayerInput>();
     }
 
-    private void OnEnable()
+    // PlayerInput Events
+
+    public void OnMove(InputAction.CallbackContext context)
     {
-        moveAction.Enable();
-        lookAction.Enable();
-        sprintAction.Enable();
-        jumpAction.Enable();
-    }
-    private void OnDisable()
-    {
-        moveAction.Disable();
-        lookAction.Disable();
-        sprintAction.Disable();
-        jumpAction.Disable();
+        moveInput = context.ReadValue<Vector2>();
     }
 
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        lookInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log("Running");
+            speedMultiplier = sprintMultiplier;
+        }
+        else
+        {
+            speedMultiplier = 1f;
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            JumpServerRPC();
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ShootServerRPC();
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        playerInput.enabled = IsOwner;
+        characterController.enabled = IsOwner;
+        base.OnNetworkSpawn();
+
+        Debug.Log($"NetworkObject ID: {NetworkObjectId} spawned with OwnerClientId: {OwnerClientId}");
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        playerInput.enabled = false;
+        characterController.enabled = false;
+        base.OnNetworkDespawn();
+
+        Debug.Log($"NetworkObject ID: {NetworkObjectId} despawned");
+    }
 
     private void Update()
     {
-        if (!IsOwner) return;
+        if (!IsOwner) 
+        {
+            return;
+        }
 
+        Debug.Log("Update(currentMovement.y): " + currentMovement.y);
         HandleMovement();
         HandleRotation();
         InternalLockUpdate();
@@ -88,8 +121,6 @@ public class RobotController : NetworkBehaviour
 
     private void HandleMovement()
     {
-        float speedMultiplier = sprintAction.ReadValue<float>() > 0 ? sprintMultiplier : 1f;
-
         float verticalSpeed = moveInput.y * walkSpeed * speedMultiplier;
         float horizontalSpeed = moveInput.x * walkSpeed * speedMultiplier;
 
@@ -111,11 +142,6 @@ public class RobotController : NetworkBehaviour
         if (characterController.isGrounded)
         {
             currentMovement.y = -0.5f;
-
-            if (jumpAction.triggered)
-            {
-                currentMovement.y = jumpForce;
-            }
         }
         else
         {
@@ -166,4 +192,31 @@ public class RobotController : NetworkBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
+
+
+
+    // Networking Staff
+
+    [ServerRpc]
+    private void JumpServerRPC()
+    {
+        if (characterController.isGrounded)
+        {
+            currentMovement.y = jumpForce;
+            Debug.Log("Debug.Log(currentMovement.y): " + currentMovement.y);
+            Debug.Log("Jumping triggered.");
+        }
+    }
+
+    [ServerRpc]
+    private void ShootServerRPC()
+    {
+        weapon.Shooting();
+        Debug.Log("Shooting triggered.");
+    }
+
+
+
+
 }

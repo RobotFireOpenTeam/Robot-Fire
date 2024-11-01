@@ -406,6 +406,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 393987864348048250, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: m_Name
+      value: Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3616139496424255711, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2379304067
+      objectReference: {fileID: 0}
     - target: {fileID: 4933421663285562274, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
       propertyPath: m_Name
       value: TestRobot Variant
@@ -453,8 +461,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 393987864348048250, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9138998884118735221}
   m_SourcePrefab: {fileID: 100100000, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+--- !u!1 &9138998884118735220 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 393987864348048250, guid: 872f99b5758d3ec479114825be3bf420, type: 3}
+  m_PrefabInstance: {fileID: 9138998884118735219}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9138998884118735221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138998884118735220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81238d9edefd1cb489822146d154d551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  range: 100
+  mainCam: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
