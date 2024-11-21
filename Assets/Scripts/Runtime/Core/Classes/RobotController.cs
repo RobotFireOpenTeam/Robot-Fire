@@ -34,6 +34,10 @@ public class RobotController : NetworkBehaviour
 
     private bool isMoving;
     private Vector3 currentMovement = Vector3.zero;
+    
+    [Header("Developer Console")]
+    [SerializeField] private DeveloperConsoleUI devConsole;
+    private bool LocalDeveloperConsoleOpened = false;
 
 
     // Network Variables
@@ -48,6 +52,22 @@ public class RobotController : NetworkBehaviour
     }
 
     // PlayerInput Events
+
+    public void OnConsoleButtonPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log("Console");
+            if (LocalDeveloperConsoleOpened) {
+                LocalDeveloperConsoleOpened = false;
+                devConsole.CloseConsole();
+            }
+            else {
+                LocalDeveloperConsoleOpened = true;
+                devConsole.OpenConsole();
+            }
+        }
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -113,7 +133,7 @@ public class RobotController : NetworkBehaviour
             return;
         }
 
-        Debug.Log("Update(currentMovement.y): " + currentMovement.y);
+        // Debug.Log("Update(currentMovement.y): " + currentMovement.y);
         HandleMovement();
         HandleRotation();
         InternalLockUpdate();
