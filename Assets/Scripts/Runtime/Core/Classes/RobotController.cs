@@ -110,18 +110,22 @@ public class RobotController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
         playerInput.enabled = IsOwner;
         characterController.enabled = IsOwner;
-        base.OnNetworkSpawn();
+        mainCam.enabled = IsOwner;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} spawned with OwnerClientId: {OwnerClientId}");
     }
 
     public override void OnNetworkDespawn()
     {
+        base.OnNetworkDespawn();
+
         playerInput.enabled = false;
         characterController.enabled = false;
-        base.OnNetworkDespawn();
+        mainCam.enabled = false;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} despawned");
     }
@@ -132,9 +136,7 @@ public class RobotController : NetworkBehaviour
         {
             return;
         }
-
-        // Debug.Log("Update(currentMovement.y): " + currentMovement.y);
-        HandleMovement();
+        
         HandleRotation();
         InternalLockUpdate();
     }
