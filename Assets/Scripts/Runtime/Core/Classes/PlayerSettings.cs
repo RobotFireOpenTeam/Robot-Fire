@@ -1,7 +1,8 @@
+using Unity.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerSettings : MonoBehaviour
+public class PlayerSettings : NetworkBehaviour
 {
-    public string PlayerNickname;
-    
+    public NetworkVariable<FixedString64Bytes> playerNickname;
 }
