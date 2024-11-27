@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,49 +7,51 @@ using UnityEngine.InputSystem;
 public class RobotController : NetworkBehaviour
 {
     [Header("Objects")]
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] protected CharacterController characterController;
     [SerializeField] protected Camera mainCam;
-    [SerializeField] private Weapon weapon;
+    [SerializeField] protected AudioListener audioListener;
+    [SerializeField] protected Weapon weapon;
 
-    [SerializeField] private float upDownRange = 90f;
-    private float verticalRotation;
+    [SerializeField] protected float upDownRange = 90f;
+    protected float verticalRotation;
     
     [Header("Movement")]
-    [SerializeField] private float walkSpeed = 5.0f;
-    [SerializeField] private float sprintMultiplier = 5.0f;
-    float speedMultiplier = 1f;
+    [SerializeField] protected float walkSpeed = 5.0f;
+    [SerializeField] protected float sprintMultiplier = 5.0f;
+    protected float speedMultiplier = 1f;
     
     [Header("Gravity / JumpForce")]
-    [SerializeField] private float gravity = 9.81f;
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] protected float gravity = 9.81f;
+    [SerializeField] protected float jumpForce = 5f;
     
     [Header("Look Sensitivity")]
-    [SerializeField] private float m_lookSensitivity = 3.0f;
-    private bool m_cursorIsLocked = true;
+    [SerializeField] protected float m_lookSensitivity = 3.0f;
+    protected bool m_cursorIsLocked = true;
 
     [Header("Input Actions")]
-    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] protected PlayerInput playerInput;
 
-    private Vector2 moveInput;
-    private Vector2 lookInput;
+    protected Vector2 moveInput;
+    protected Vector2 lookInput;
 
-    private bool isMoving;
-    private Vector3 currentMovement = Vector3.zero;
+    protected bool isMoving;
+    protected Vector3 currentMovement = Vector3.zero;
     
     [Header("Developer Console")]
-    [SerializeField] private DeveloperConsoleUI devConsole;
-    private bool LocalDeveloperConsoleOpened = false;
+    [SerializeField] protected DeveloperConsoleUI devConsole;
+    protected bool LocalDeveloperConsoleOpened = false;
 
 
     // Network Variables
     [Header("Network Variables")]
-    private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
-    private NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>();
+    protected NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
+    protected NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>();
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        audioListener = GetComponentInChildren<AudioListener>();
     }
 
     // PlayerInput Events
@@ -68,17 +71,14 @@ public class RobotController : NetworkBehaviour
             }
         }
     }
-
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
     }
-
     public void OnLook(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
     }
-
     public void OnSprint(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -91,7 +91,6 @@ public class RobotController : NetworkBehaviour
             speedMultiplier = 1f;
         }
     }
-
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -99,7 +98,6 @@ public class RobotController : NetworkBehaviour
             JumpServerRPC();
         }
     }
-
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -107,7 +105,29 @@ public class RobotController : NetworkBehaviour
             ShootServerRPC();
         }
     }
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            AimServerRPC();
+        }
+    }
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            CrouchServerRPC();
+        }
+    }
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            InteractServerRPC();
+        }
+    }
 
+    // Network Spawn & Despawn
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -115,6 +135,7 @@ public class RobotController : NetworkBehaviour
         playerInput.enabled = IsOwner;
         characterController.enabled = IsOwner;
         mainCam.enabled = IsOwner;
+        audioListener.enabled = IsOwner;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} spawned with OwnerClientId: {OwnerClientId}");
     }
@@ -126,6 +147,7 @@ public class RobotController : NetworkBehaviour
         playerInput.enabled = false;
         characterController.enabled = false;
         mainCam.enabled = false;
+        audioListener.enabled = false;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} despawned");
     }
@@ -136,12 +158,13 @@ public class RobotController : NetworkBehaviour
         {
             return;
         }
-        
+
+        HandleMovement();
         HandleRotation();
         InternalLockUpdate();
     }
 
-    private void HandleMovement()
+    protected void HandleMovement()
     {
         float verticalSpeed = moveInput.y * walkSpeed * speedMultiplier;
         float horizontalSpeed = moveInput.x * walkSpeed * speedMultiplier;
@@ -159,7 +182,7 @@ public class RobotController : NetworkBehaviour
         isMoving = moveInput.y != 0 || moveInput.x != 0;
     }
 
-    private void handleGravityAndJumping()
+    protected void handleGravityAndJumping()
     {
         if (characterController.isGrounded)
         {
@@ -171,7 +194,7 @@ public class RobotController : NetworkBehaviour
         }
     }
 
-    void HandleRotation()
+    protected void HandleRotation()
     {
         float mouseXRotation = lookInput.x * m_lookSensitivity;
         transform.Rotate(0, mouseXRotation, 0);
@@ -182,7 +205,7 @@ public class RobotController : NetworkBehaviour
     }
 
     //controls the locking and unlocking of the mouse
-    private void InternalLockUpdate()
+    protected void InternalLockUpdate()
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
@@ -202,43 +225,49 @@ public class RobotController : NetworkBehaviour
             LockCursor();
         }
     }
-
     private void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
     private void LockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-
-
-
     // Networking Staff
 
     [ServerRpc]
-    private void JumpServerRPC()
+    protected void JumpServerRPC()
     {
         if (characterController.isGrounded)
         {
-            currentMovement.y = jumpForce;
-            Debug.Log("Debug.Log(currentMovement.y): " + currentMovement.y);
-            Debug.Log("Jumping triggered.");
+            Debug.Log($"Jump triggered. Owner: {OwnerClientId}");
         }
     }
 
     [ServerRpc]
-    private void ShootServerRPC()
+    protected void ShootServerRPC()
     {
-        weapon.Shooting();
-        Debug.Log("Shooting triggered.");
+        Debug.Log($"Shooting triggered. Owner: {OwnerClientId}");
     }
 
+    [ServerRpc]
+    protected void AimServerRPC()
+    {
+        Debug.Log($"Aim triggered. Owner: {OwnerClientId}");
+    }
 
+    [ServerRpc]
+    protected void CrouchServerRPC()
+    {
+        Debug.Log($"Crouch triggered. Owner: {OwnerClientId}");
+    }
 
-
+    [ServerRpc]
+    protected void InteractServerRPC()
+    {
+        Debug.Log($"Interact triggered. Owner: {OwnerClientId}");
+    }
 }
