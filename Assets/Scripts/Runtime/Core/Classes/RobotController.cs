@@ -25,8 +25,8 @@ public class RobotController : NetworkBehaviour
     [SerializeField] protected float jumpForce = 5f;
     
     [Header("Look Sensitivity")]
-    [SerializeField] protected float m_lookSensitivity = 3.0f;
-    protected bool m_cursorIsLocked = true;
+    [SerializeField] protected float lookSensitivity = 3.0f;
+    protected bool cursorIsLocked = true;
 
     [Header("Input Actions")]
     [SerializeField] protected PlayerInput playerInput;
@@ -39,7 +39,7 @@ public class RobotController : NetworkBehaviour
     
     [Header("Developer Console")]
     [SerializeField] protected DeveloperConsoleUI devConsole;
-    protected bool LocalDeveloperConsoleOpened = false;
+    protected bool localDeveloperConsoleOpened = false;
 
 
     // Network Variables
@@ -61,12 +61,12 @@ public class RobotController : NetworkBehaviour
         if (context.performed)
         {
             Debug.Log("Console");
-            if (LocalDeveloperConsoleOpened) {
-                LocalDeveloperConsoleOpened = false;
+            if (localDeveloperConsoleOpened) {
+                localDeveloperConsoleOpened = false;
                 devConsole.CloseConsole();
             }
             else {
-                LocalDeveloperConsoleOpened = true;
+                localDeveloperConsoleOpened = true;
                 devConsole.OpenConsole();
             }
         }
@@ -196,10 +196,10 @@ public class RobotController : NetworkBehaviour
 
     protected void HandleRotation()
     {
-        float mouseXRotation = lookInput.x * m_lookSensitivity;
+        float mouseXRotation = lookInput.x * lookSensitivity;
         transform.Rotate(0, mouseXRotation, 0);
 
-        verticalRotation -= lookInput.y * m_lookSensitivity;
+        verticalRotation -= lookInput.y * lookSensitivity;
         verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
         mainCam.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
     }
@@ -209,18 +209,18 @@ public class RobotController : NetworkBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            m_cursorIsLocked = false;
+            cursorIsLocked = false;
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            m_cursorIsLocked = true;
+            cursorIsLocked = true;
         }
 
-        if (m_cursorIsLocked)
+        if (cursorIsLocked)
         {
             UnlockCursor();
         }
-        else if (!m_cursorIsLocked)
+        else if (!cursorIsLocked)
         {
             LockCursor();
         }
