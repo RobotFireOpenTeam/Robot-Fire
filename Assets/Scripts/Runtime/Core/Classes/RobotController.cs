@@ -251,6 +251,7 @@ public class RobotController : NetworkBehaviour
     protected void ShootServerRPC()
     {
         Debug.Log($"Shooting triggered. Owner: {OwnerClientId}");
+        weapon.Shooting();
     }
 
     [ServerRpc]
