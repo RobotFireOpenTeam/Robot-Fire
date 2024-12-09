@@ -10,6 +10,7 @@ public class Trooper : RobotController
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        audioListener = GetComponentInChildren<AudioListener>();
     }
 
     // PlayerInput Events
@@ -37,6 +38,7 @@ public class Trooper : RobotController
         playerInput.enabled = IsOwner;
         characterController.enabled = IsOwner;
         mainCam.enabled = IsOwner;
+        audioListener.enabled = IsOwner;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} spawned with OwnerClientId: {OwnerClientId}");
     }
@@ -48,6 +50,7 @@ public class Trooper : RobotController
         playerInput.enabled = false;
         characterController.enabled = false;
         mainCam.enabled = false;
+        audioListener.enabled = false;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} despawned");
     }
