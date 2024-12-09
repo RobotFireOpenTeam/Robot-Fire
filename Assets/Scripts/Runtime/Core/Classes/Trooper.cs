@@ -94,7 +94,6 @@ public class Trooper : RobotController
     [ServerRpc]
     private new void ShootServerRPC()
     {
-        Debug.Log("Shooting as Trooper triggered.");
         weapon.Shooting();
     }
 
