@@ -3,7 +3,47 @@ guid: 68f975ad13142f649bdb7d103d57f656
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ArmMaterial
+    second: {fileID: 2100000, guid: 7a80a153100dcee4883c14cb45910792, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BodyPart
+    second: {fileID: 2100000, guid: 44fd85b713b62114884f479a801d691e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BodyPart.001
+    second: {fileID: 2100000, guid: fb4122f4a923e3c46b6d3a0ee94a46d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BodyPartD
+    second: {fileID: 2100000, guid: d7052fe9a67424b40a89b2f0c92aee94, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CableDetailMaterial
+    second: {fileID: 2100000, guid: dbdb83a1f181430479a5b8550d099c73, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LegTexture
+    second: {fileID: 2100000, guid: 762ba59a2cbcbe74da302c098657d011, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: NeckDetails
+    second: {fileID: 2100000, guid: 9f5176c107a43c043ab8ce3a14a1a9c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RobotHeadMaterial
+    second: {fileID: 2100000, guid: b2038a6b0830e2b42b4cbad1bc3fd848, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

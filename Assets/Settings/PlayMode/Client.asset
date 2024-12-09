@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a689d91966dfb46499fb63f130d9b905, type: 3}
   m_Name: Client
   m_EditorClassIdentifier: 
-  m_Description: 
+  m_Description: Multiplayer Check
   m_EnableEditors: 1
   m_MainEditorInstance:
     Name: Main Editor
