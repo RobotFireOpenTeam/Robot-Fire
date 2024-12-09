@@ -47,4 +47,4 @@
 
 The Docking Station is a base for each teams. Reproduce new robots each two minutes. In order to win, the enemy must destroy this Docking Station. The Docking Station can be repaired by engineers.
 
-Док-станция — это база для каждой команды. Каждые две минуты воспроизводите новых роботов. Чтобы победить, противник должен уничтожить эту док-станцию. Док-станцию ​​могут ремонтировать инженеры.
+Док-станция — это база для каждой команды. Каждые две минуты воспроизводит новых роботов. Чтобы победить, противник должен уничтожить эту док-станцию. Док-станцию ​​могут ремонтировать инженеры.
