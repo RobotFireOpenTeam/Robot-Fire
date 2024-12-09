@@ -41,12 +41,6 @@ public class RobotController : NetworkBehaviour
     [SerializeField] protected DeveloperConsoleUI devConsole;
     protected bool localDeveloperConsoleOpened = false;
 
-
-    // Network Variables
-    [Header("Network Variables")]
-    protected NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
-    protected NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>();
-
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
