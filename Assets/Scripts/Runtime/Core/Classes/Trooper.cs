@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class Trooper : RobotController
 {
+    // Dev Debug Staff
+    [SerializeField] Canvas screenSpaceCanvas;
+
     // Gameplay - Scene Awake & Start
     private void Awake()
     {
@@ -39,6 +42,7 @@ public class Trooper : RobotController
         characterController.enabled = IsOwner;
         mainCam.enabled = IsOwner;
         audioListener.enabled = IsOwner;
+        screenSpaceCanvas.enabled = IsOwner;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} spawned with OwnerClientId: {OwnerClientId}");
     }
@@ -51,6 +55,7 @@ public class Trooper : RobotController
         characterController.enabled = false;
         mainCam.enabled = false;
         audioListener.enabled = false;
+        screenSpaceCanvas.enabled = false;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} despawned");
     }
