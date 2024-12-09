@@ -48,9 +48,17 @@ public class Trooper : RobotController
     }
 
     // Networking Staff - Spawn & Despawn
+    void OnServerSpawnPlayer()
+    {
+        // this is done server side, so we have a single source of truth for our spawn point list
+        var spawnPoint = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint();
+        var spawnPosition = spawnPoint ? spawnPoint.transform.position : Vector3.zero;
+        transform.position = spawnPosition;
+    }
 
     public override void OnNetworkSpawn()
     {
+        OnServerSpawnPlayer();
         base.OnNetworkSpawn();
 
         playerInput.enabled = IsOwner;
