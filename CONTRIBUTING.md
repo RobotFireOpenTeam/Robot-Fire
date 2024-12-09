@@ -1,6 +1,6 @@
 # Code Style Guide to 'RobotFire' Repo
 Не является обязательством, но было бы очень приятно🙂
-Обращаться к [Conventional Commits](https://www.conventionalcommits.org/ru/v1.0.0/) и к [Google C# Style Guide](https://google.github.io/styleguide/csharp-style.html)
+Обращаться к [Conventional Commits](https://www.conventionalcommits.org/ru/v1.0.0/) и к [Microsoft C# Coding Conventions](https://learn.microsoft.com/ru-ru/dotnet/csharp/fundamentals/coding-style/coding-conventions)
 
 ## <a name="rules"></a> Coding Rules
 Чтобы обеспечить единообразие во всем исходном коде, помните об этих правилах во время работы:
