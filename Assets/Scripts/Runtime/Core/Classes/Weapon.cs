@@ -3,27 +3,24 @@ using Unity.Netcode;
 
 public class Weapon : MonoBehaviour
 {
-    // [SerializeField] private float damage = 10f;
-    [SerializeField] private float range = 100f;
-    [SerializeField] protected Camera mainCam;
-    [SerializeField] protected float debugRayDistance = 5f;
-    [SerializeField] protected float debugRayDuration = 2f;
+    [SerializeField] protected Camera _mainCam;
+    [SerializeField] protected float _debugRayDistance = 5f;
+    [SerializeField] protected float _debugRayDuration = 2f;
+    [SerializeField] private float _range = 100f;
 
     [Header("Gameplay Variables")]
-    private NetworkVariable<int> m_Damage = new NetworkVariable<int>();
-    [SerializeField] protected int damage = 10;
-
-    
+    public NetworkVariable<float> Damage { get => _damage; set => _damage = value; }
+    private NetworkVariable<float> _damage = new NetworkVariable<float>();
 
     public void Shooting()
     {
         RaycastHit hit;
-        if (Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range))
+        if (Physics.Raycast(_mainCam.transform.position, _mainCam.transform.forward, out hit, _range))
         {
             Debug.Log(hit.transform.name);
             
-            Vector3 rayDir = mainCam.transform.forward * debugRayDistance;
-            Debug.DrawRay(mainCam.transform.position, rayDir, Color.yellow, debugRayDuration, false);
+            Vector3 rayDir = _mainCam.transform.forward * _debugRayDistance;
+            Debug.DrawRay(_mainCam.transform.position, rayDir, Color.yellow, _debugRayDuration, false);
         }
     }
 

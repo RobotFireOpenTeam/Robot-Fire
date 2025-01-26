@@ -6,29 +6,30 @@ using UnityEngine.InputSystem;
 public class Trooper : RobotController
 {
     // Dev Debug Staff
-    [SerializeField] Canvas screenSpaceCanvas;
+    [SerializeField] private Canvas _screenSpaceCanvas;
 
     [Header("Gameplay Variables")]
-    private NetworkVariable<int> healthPoints = new NetworkVariable<int>();
-    public int HealthPoints { get { return healthPoints.Value; } set { healthPoints.Value = value; } }
+    public NetworkVariable<int> HealthPoints { get => _healthPoints; set => _healthPoints = value; }
+    private NetworkVariable<int> _healthPoints = new NetworkVariable<int>();
     
-    private NetworkVariable<int> armorPoints = new NetworkVariable<int>();
-    public int ArmorPoints { get { return armorPoints.Value; } set { armorPoints.Value = value; } }
+    public NetworkVariable<int> ArmorPoints { get => _armorPoints; set => _armorPoints = value; }
+    private NetworkVariable<int> _armorPoints = new NetworkVariable<int>();
 
-    private NetworkVariable<int> ammoPoints = new NetworkVariable<int>();
-    public int AmmoPoints { get { return ammoPoints.Value; } set { ammoPoints.Value = value; } }
+    public NetworkVariable<int> AmmoPoints { get => _ammoPoints; set => _ammoPoints = value; }
+    private NetworkVariable<int> _ammoPoints = new NetworkVariable<int>();
 
-    [SerializeField] private int initialHP = 100;
-    public int InitialHP { get => initialHP; set => initialHP = value; }
+    public int InitialHP { get => _initialHP; set => _initialHP = value; }
+    [SerializeField] private int _initialHP = 100;
     
-    [SerializeField] private int initialArmor = 100;
-    public int InitialArmor { get => initialArmor; set => initialArmor = value; }
+    public int InitialArmor { get => _initialArmor; set => _initialArmor = value; }
+    [SerializeField] private int _initialArmor = 100;
+
     // Gameplay - Scene Awake & Start
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
-        playerInput = GetComponent<PlayerInput>();
-        audioListener = GetComponentInChildren<AudioListener>();
+        _characterController = GetComponent<CharacterController>();
+        _playerInput = GetComponent<PlayerInput>();
+        _audioListener = GetComponentInChildren<AudioListener>();
     }
 
     // PlayerInput Events
@@ -48,33 +49,41 @@ public class Trooper : RobotController
     }
 
     // Networking Staff - Spawn & Despawn
+    private void OnServerSpawnPlayer()
+    {
+        // this is done server side, so we have a single source of truth for our spawn point list
+        var spawnPoint = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint();
+        var spawnPosition = spawnPoint ? spawnPoint.transform.position : Vector3.zero;
+        transform.position = spawnPosition;
+    }
 
     public override void OnNetworkSpawn()
     {
+        OnServerSpawnPlayer();
         base.OnNetworkSpawn();
 
-        playerInput.enabled = IsOwner;
-        characterController.enabled = IsOwner;
-        mainCam.enabled = IsOwner;
-        audioListener.enabled = IsOwner;
-        screenSpaceCanvas.enabled = IsOwner;
+        _playerInput.enabled = IsOwner;
+        _characterController.enabled = IsOwner;
+        _mainCam.enabled = IsOwner;
+        _audioListener.enabled = IsOwner;
+        _screenSpaceCanvas.enabled = IsOwner;
 
         // Game Variables
-        healthPoints.Value = InitialHP;
+        HealthPoints.Value = InitialHP;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} spawned with OwnerClientId: {OwnerClientId}");
-        Debug.Log($"HP of OwnerClientID: {OwnerClientId} is {healthPoints.Value} when spawned.");
+        Debug.Log($"HP of OwnerClientID: {OwnerClientId} is {HealthPoints.Value} when spawned.");
     }
 
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
 
-        playerInput.enabled = false;
-        characterController.enabled = false;
-        mainCam.enabled = false;
-        audioListener.enabled = false;
-        screenSpaceCanvas.enabled = false;
+        _playerInput.enabled = false;
+        _characterController.enabled = false;
+        _mainCam.enabled = false;
+        _audioListener.enabled = false;
+        _screenSpaceCanvas.enabled = false;
 
         Debug.Log($"NetworkObject ID: {NetworkObjectId} despawned");
     }
@@ -85,33 +94,33 @@ public class Trooper : RobotController
     [ServerRpc]
     private new void JumpServerRPC()
     {
-        if (characterController.isGrounded)
+        if (_characterController.isGrounded)
         {
-            Debug.Log("Jumping as Trooper triggered.");
+            Debug.Log($"Jumping as Trooper triggered. Owner: {OwnerClientId}");
         }
     }
 
     [ServerRpc]
     private new void ShootServerRPC()
     {
-        weapon.Shooting();
+        _weapon.Shooting();
     }
 
     [ServerRpc]
     private new void AimServerRPC()
     {
-        Debug.Log("Aim as Trooper triggered.");
+        Debug.Log($"Aim as Trooper triggered. Owner: {OwnerClientId}");
     }
 
     [ServerRpc]
     private new void CrouchServerRPC()
     {
-        Debug.Log("Crouch as Trooper triggered.");
+        Debug.Log($"Crouch as Trooper triggered. Owner: {OwnerClientId}");
     }
 
     [ServerRpc]
     private new void InteractServerRPC()
     {
-        Debug.Log("Interact as Trooper triggered.");
+        Debug.Log($"Interact as Trooper triggered. Owner: {OwnerClientId}");
     }
 }

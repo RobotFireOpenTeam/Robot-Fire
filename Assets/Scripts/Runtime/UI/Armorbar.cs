@@ -3,26 +3,26 @@ using UnityEngine;
 
 public class Armorbar : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI staticInfo;
-    [SerializeField] private TextMeshProUGUI dynamicInfo;
-    [SerializeField] private Trooper trooper;
+    [SerializeField] private TextMeshProUGUI _staticInfo;
+    [SerializeField] private TextMeshProUGUI _dynamicInfo;
+    [SerializeField] private Trooper _trooper;
     
-    private int bufferHP;
-    private int initialInfo;
+    private int _bufferHP;
+    private int _initialInfo;
 
-    public TextMeshProUGUI DynamicInfo { get => dynamicInfo; set => dynamicInfo = value; }
-    public TextMeshProUGUI StaticInfo { get => staticInfo; set => staticInfo = value; }
-    public int BufferHP { get => bufferHP; set => bufferHP = value; }
+    public TextMeshProUGUI DynamicInfo { get => _dynamicInfo; set => _dynamicInfo = value; }
+    public TextMeshProUGUI StaticInfo { get => _staticInfo; set => _staticInfo = value; }
+    public int BufferHP { get => _bufferHP; set => _bufferHP = value; }
 
     void Start()
     {
-        initialInfo = trooper.InitialArmor;
-        StaticInfo.text = initialInfo.ToString();
-        DynamicInfo.text = initialInfo.ToString();
+        _initialInfo = _trooper.InitialArmor;
+        StaticInfo.text = _initialInfo.ToString();
+        DynamicInfo.text = _initialInfo.ToString();
     }
 
     void DynamicInfoChange(int newValue)
     {
-        DynamicInfo.text = bufferHP.ToString();
+        DynamicInfo.text = _bufferHP.ToString();
     }
 }

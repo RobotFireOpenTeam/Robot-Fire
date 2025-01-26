@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class PlayerSettings : NetworkBehaviour
 {
-    public NetworkVariable<FixedString64Bytes> playerNickname;
+    public NetworkVariable<FixedString64Bytes> PlayerNickname;
 }
