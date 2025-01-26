@@ -14,9 +14,9 @@ TagManager:
   - Player
   - Terrain
   - Building
-  - 
-  - 
-  - 
+  - First-Person
+  - ModelLocal
+  - ModelRemote
   - 
   - 
   - 

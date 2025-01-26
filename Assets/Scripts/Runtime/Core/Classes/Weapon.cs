@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Netcode;
 
 public class Weapon : MonoBehaviour
 {
@@ -7,6 +8,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected Camera mainCam;
     [SerializeField] protected float debugRayDistance = 5f;
     [SerializeField] protected float debugRayDuration = 2f;
+
+    [Header("Gameplay Variables")]
+    private NetworkVariable<int> m_Damage = new NetworkVariable<int>();
+    [SerializeField] protected int damage = 10;
+
+    
 
     public void Shooting()
     {
