@@ -124,9 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474dc9fe3fae8334ab11728ec7fcd111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staticInfo: {fileID: 0}
-  dynamicInfo: {fileID: 0}
-  trooper: {fileID: 4166105814924043842, guid: 510021a4335799440b6b08e642a11ddf, type: 3}
+  _staticInfo: {fileID: 5391839336420092048}
+  _dynamicInfo: {fileID: 5821778700187197228}
+  _trooper: {fileID: 4166105814924043842, guid: 510021a4335799440b6b08e642a11ddf, type: 3}
 --- !u!1 &2751800238749896981
 GameObject:
   m_ObjectHideFlags: 0

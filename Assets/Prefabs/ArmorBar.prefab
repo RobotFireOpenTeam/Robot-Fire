@@ -471,6 +471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac02fa8c7a7e6a94186a25cec41a920f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  staticInfo: {fileID: 7596845782851391549}
-  dynamicInfo: {fileID: 6292949481137731640}
-  trooper: {fileID: 4166105814924043842, guid: 510021a4335799440b6b08e642a11ddf, type: 3}
+  _staticInfo: {fileID: 7596845782851391549}
+  _dynamicInfo: {fileID: 6292949481137731640}
+  _trooper: {fileID: 4166105814924043842, guid: 510021a4335799440b6b08e642a11ddf, type: 3}
