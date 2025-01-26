@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP; 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class NetworkManagerUI : MonoBehaviour
             StartHostAndLoadScene();
         });
         _clientBtn.onClick.AddListener(() =>{
-            NetworkManager.Singleton.StartClient();
+            ConnectToServer();
         });
     }
     
@@ -51,12 +52,24 @@ public class NetworkManagerUI : MonoBehaviour
         }
     }
 
-    private void LoadScene(string sceneName)
+    
+    private void ConnectToServer()
     {
-        if (!SceneManager.GetSceneByName(sceneName).isLoaded)
+        // Set the server IP and port
+        UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        if (transport != null)
         {
-            // Use NetworkSceneManager to load the scene
-            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            transport.SetConnectionData("127.0.0.1", 7777);
+        }
+
+        // Start the client
+        if (NetworkManager.Singleton.StartClient())
+        {
+            Debug.Log("Client started successfully.");
+        }
+        else
+        {
+            Debug.LogError("Failed to start client!");
         }
     }
 }
